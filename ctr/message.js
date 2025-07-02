@@ -10,6 +10,7 @@ async function sendchatwork(ms, roomId) {
       {
         headers: {
           "X-ChatWorkToken": CHATWORK_API_TOKEN,
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       }
     );
@@ -96,6 +97,8 @@ async function readmessage(roomId) {
       `https://api.chatwork.com/v2/rooms/${roomId}/messages/read`,
       {
         headers: {
+          accept: 'application/json',
+          'content-type': 'application/x-www-form-urlencoded',
           "X-ChatWorkToken": CHATWORK_API_TOKEN,
         },
       }
