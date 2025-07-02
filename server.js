@@ -2,7 +2,6 @@ const express = require("express");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const compression = require("compression");
 const path = require("path");
 
 const app = express();
@@ -12,7 +11,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(compression());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
@@ -42,6 +40,7 @@ app.use("/api", require("./routes/api"));
 app.use("/", require("./routes/webhook"));
 app.get('/send', (req, res) => {
   res.end(JSON.stringify(process.versions, null, 2));
+  console.log("ぬ")
 });
 // サーバ起動
 app.listen(3000, () => {
