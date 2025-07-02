@@ -40,7 +40,9 @@ app.use("/", require("./routes/index"));
 app.use("/", require("./routes/auth"));
 app.use("/api", require("./routes/api"));
 app.use("/", require("./routes/webhook"));
-
+app.get('/send', (req, res) => {
+  res.end(JSON.stringify(process.versions, null, 2));
+});
 // サーバ起動
 app.listen(3000, () => {
   console.log(`${process.pid} started`);
