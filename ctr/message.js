@@ -98,7 +98,6 @@ async function readmessage(roomId) {
       {
         headers: {
           "X-ChatWorkToken": CHATWORK_API_TOKEN,
-          "Content-Type": "application/x-www-form-urlencoded",
         },
       }
     );
