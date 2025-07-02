@@ -91,13 +91,13 @@ async function deleteMessage(body, messageId, roomId, accountId) {
 }
 
 //メッセージに既読をつける
-async function readmessage(roomId) {
+async function readmessage(roomId, messageId) {
   try {
     await axios.put(
       `https://api.chatwork.com/v2/rooms/${roomId}/messages/read`,
+      new URLSearchParams({ message_id: messageId }),
       {
         headers: {
-          accept: 'application/json',
           'content-type': 'application/x-www-form-urlencoded',
           "X-ChatWorkToken": CHATWORK_API_TOKEN,
         },
