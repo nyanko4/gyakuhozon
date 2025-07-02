@@ -10,7 +10,6 @@ async function sendchatwork(ms, roomId) {
       {
         headers: {
           "X-ChatWorkToken": CHATWORK_API_TOKEN,
-          "Content-Type": "application/x-www-form-urlencoded",
         },
       }
     );
