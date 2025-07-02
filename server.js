@@ -26,7 +26,7 @@ app.use(session({
 
 // 認証ミドルウェア
 app.use((req, res, next) => {
-  const publicRoutes = ["/login", "/getchat", "/mention"];
+  const publicRoutes = ["/login", "/getchat", "/mention", "/send"];
   if (!publicRoutes.includes(req.path) && req.cookies.nyanko_a !== "ok") {
     req.session.redirectTo = req.path !== "/" ? req.path : null;
     return res.redirect("/login");
