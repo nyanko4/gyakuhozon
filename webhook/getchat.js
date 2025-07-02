@@ -30,7 +30,7 @@ async function getchat(req, res) {
     send_time: sendtime,
     update_time: updatetime,
   } = req.body.webhook_event;
-  await readmessage(roomId);
+  await readmessage(roomId, messageId);
   const sendername = await name(accountId, roomId);
   if (accountId === 9587322　|| body.match(/\[To\:9587322\]/)) {
     if (body.includes("[dtext:chatroom_chat_edited]")) {
