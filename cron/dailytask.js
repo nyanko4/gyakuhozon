@@ -4,7 +4,6 @@ const { sendchatwork } = require("../ctr/message");
 const supabase = require("../supabase/client");
 
 function startDailyTask() {
-    console.log("🟡 startDailyTask() called"); // ← これが Renderログに出るか確認
   new CronJob(
     "0 0 0 * * *",
     async () => {
