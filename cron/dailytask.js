@@ -19,4 +19,4 @@ function startDailyTask() {
   );
 }
 
-module.exports = { startDailyTask };
+module.exports = startDailyTask;
