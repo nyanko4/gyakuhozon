@@ -1,5 +1,5 @@
 const supabase = require("../supabase/client");
-const { block } = require("../ctr/filter");
+const { blockMember } = require("../ctr/filter");
 const { isUserAdmin } = require("../ctr/cwdata");
 const { sendchatwork } = require("../ctr/message");
 async function senden(body, messageId, roomId, accountId) {
