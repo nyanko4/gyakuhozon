@@ -1,5 +1,5 @@
 const supabase = require("../supabase/client");
-const sendchatwork = require("../ctr/message").sendchatwork;
+const { sendchatwork } = require("../ctr/message");
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -199,7 +199,7 @@ async function poker(body, message, messageId, roomId, accountId) {
       // 結果を表示
       console.log(hand);
       console.log(result);
-      sendchatwork(`[rp aid=${accountId} to=${roomId}-${messageId}][pname:${accountId}] さん\n${handString}\n${result}`, roomId);
+      await sendchatwork(`[rp aid=${accountId} to=${roomId}-${messageId}][pname:${accountId}] さん\n${handString}\n${result}`, roomId);
     }
   } catch (error) {
     console.error("poker", error);
