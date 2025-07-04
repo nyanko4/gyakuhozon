@@ -1,12 +1,12 @@
 const supabase = require("../supabase/client");
 const axios = require("axios");
-const cwdata = require("../ctr/cwdata");
-const msedit = require("../ctr/message");
+const { getChatworkMembers } = require("../ctr/cwdata");
+const { sendchatwork } = require("../ctr/message");
 const CHATWORK_API_TOKEN = process.env.CWapitoken;
 
 async function blockMember(roomId, accountIdToBlock, ms) {
   try {
-    const members = await cwdata.getChatworkMembers(roomId);
+    const members = await getChatworkMembers(roomId);
 
     let adminIds = [];
     let memberIds = [];
@@ -68,16 +68,16 @@ async function blockMember(roomId, accountIdToBlock, ms) {
     }
     console.log(ms);
     if (ms !== undefined) {
-      await msedit.sendchatwork(
+      await sendchatwork(
         `[info][title]不正利用記録[/title][piconname:${accountIdToBlock}]さんに対して、不正利用フィルターが発動しました。\n${ms}[/info]`,
         roomId
       );
     } else {
-      await msedit.sendchatwork(
+      await sendchatwork(
         `[info][title]不正利用記録[/title][piconname:${accountIdToBlock}]さんに対して、不正利用フィルターが発動しました。[/info]`,
         roomId
       );
-      await msedit.sendchatwork(
+      await sendchatwork(
         `[info][title]不正利用記録[/title][piconname:${accountIdToBlock}]さんに対して、不正利用フィルターが発動しました。[/info]`,
         389966097
       );
@@ -92,7 +92,7 @@ async function blockMember(roomId, accountIdToBlock, ms) {
 async function kengen(body, message, messageId, roomId, accountIdToBlock) {
   try {
     if (accountIdToBlock === 9487124) {
-      const members = await cwdata.getChatworkMembers(roomId);
+      const members = await getChatworkMembers(roomId);
 
       let adminIds = [];
       let memberIds = [];
