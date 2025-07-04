@@ -1,8 +1,8 @@
-const sendchatwork = require("../ctr/message").sendchatwork;
-const cwdata = require("../ctr/cwdata")
+const { sendchatwork } = require("../ctr/message");
+const { getChatworkMembers } = require("../ctr/cwdata")
 async function randommember(body, message, messageId, roomId, accountId) {
   try {
-    const members = await cwdata.getChatworkMembers(roomId);
+    const members = await getChatworkMembers(roomId);
 
     if (!members || members.length === 0) {
       return;
