@@ -1,7 +1,7 @@
 const supabase = require("../supabase/client");
-const block = require("../ctr/filter");
-const isUserAdmin = require("../ctr/cwdata").isUserAdmin;
-const sendchatwork = require("../ctr/message").sendchatwork;
+const { block } = require("../ctr/filter");
+const { isUserAdmin } = require("../ctr/cwdata");
+const { sendchatwork } = require("../ctr/message");
 async function senden(body, messageId, roomId, accountId) {
   try {
     if (body.match(/\www.chatwork.com\/g/g)) {
@@ -30,7 +30,7 @@ async function sendenkinshi(body, messageId, roomId, accountId) {
   try {
     const isAdmin = await isUserAdmin(accountId, roomId);
     if (!isAdmin) {
-      sendchatwork(
+      await sendchatwork(
         `[rp aid=${accountId} to=${roomId}-${messageId}][pname:${accountId}] さん\n宣伝禁止`,
         roomId
       );
@@ -44,13 +44,13 @@ async function sendenkinshi(body, messageId, roomId, accountId) {
       });
       const number = Number(count) + 1;
       if (number === 3) {
-        block.blockMember(
+        blockMember(
           roomId,
           accountId,
           "3度目の概要違反のため発禁になります"
         );
       } else if (number >= 4) {
-        block.blockMember(
+        blockMember(
           roomId,
           accountId,
           "4度目の概要違反のためbanとなります"
