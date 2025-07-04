@@ -1,12 +1,12 @@
 const axios = require("axios");
 const CHATWORK_API_TOKEN_N = process.env.CWapitoken2;
-const sendchatwork = require("../ctr/message").sendchatwork;
-const cwdata = require("../ctr/cwdata");
+const { sendchatwork } = require("../ctr/message");
+const { getChatworkMembers2 } = require("../ctr/cwdata");
 
 async function roominfo(body, message, messageId, roomId, accountId) {
   try {
     const room = message.match(/\d+/g);
-    const members = await cwdata.getChatworkMembers2(room);
+    const members = await getChatworkMembers2(room);
     let admin = [];
     members.forEach((member) => {
       if (member.role === "admin") {
