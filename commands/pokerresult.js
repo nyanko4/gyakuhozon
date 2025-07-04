@@ -1,12 +1,12 @@
 const supabase = require("../supabase/client");
-const isUserAdmin = require("../ctr/cwdata").isUserAdmin;
-const sendchatwork = require("../ctr/message").sendchatwork;
+const { isUserAdmin } = require("../ctr/cwdata");
+const { sendchatwork } = require("../ctr/message");
 //おみくじの結果を表示する
 async function pokerresult(body, message, messageId, roomId, accountId) {
   try {
     const isAdmin = await isUserAdmin(accountId, roomId);
     if (!isAdmin) {
-      sendchatwork("管理者のみ利用可能です", roomId);
+      await sendchatwork("管理者のみ利用可能です", roomId);
     } else {
       const { data, error } = await supabase
         .from("poker")
