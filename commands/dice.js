@@ -1,4 +1,4 @@
-const sendchatwork = require("../ctr/message").sendchatwork
+const { sendchatwork } = require("../ctr/message");
 //サイコロを振る
 async function diceroll(body, message, messageId, roomId, accountId) {
   const saikoro = [...body.matchAll(/\d+(?=d)/g)].map((saikoro) => saikoro[0]);
@@ -14,34 +14,34 @@ async function diceroll(body, message, messageId, roomId, accountId) {
     if (men <= 100) {
       if (saikoro == 1) {
         if (men > 0 && saikoro > 0) {
-          sendchatwork(
+          await sendchatwork(
             `[rp aid=${accountId} to=${roomId}-${messageId}][pname:${accountId}] さん\n${number}`,
             roomId
           );
         } else {
-          sendchatwork(
+          await sendchatwork(
             `[rp aid=${accountId} to=${roomId}-${messageId}][pname:${accountId}] さん\nダイスの数と面の数を指定してください`,
             roomId
           );
         }
       } else if (men > 0 && saikoro > 0) {
-        sendchatwork(
+        await sendchatwork(
           `[rp aid=${accountId} to=${roomId}-${messageId}][pname:${accountId}] さん\n${number} ${
             "合計値" + sum
           }`,
           roomId
         );
       } else {
-        sendchatwork(
+        await sendchatwork(
           `[rp aid=${accountId} to=${roomId}-${messageId}][pname:${accountId}] さん\nダイスの数と面の数を指定してください`,
           roomId
         );
       }
     } else {
-      sendchatwork(`[rp aid=${accountId} to=${roomId}-${messageId}][pname:${accountId}] さん\n面の数が正しくありません(1~100)`, roomId);
+      await sendchatwork(`[rp aid=${accountId} to=${roomId}-${messageId}][pname:${accountId}] さん\n面の数が正しくありません(1~100)`, roomId);
     }
   } else {
-    sendchatwork(`[rp aid=${accountId} to=${roomId}-${messageId}][pname:${accountId}] さん\nサイコロの数が正しくありません(1~100)`, roomId);
+    await sendchatwork(`[rp aid=${accountId} to=${roomId}-${messageId}][pname:${accountId}] さん\nサイコロの数が正しくありません(1~100)`, roomId);
   }
 }
 module.exports = diceroll
