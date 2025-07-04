@@ -1,4 +1,4 @@
 "use strict";
-const { startDailyTask } = require("./cron/dailytask");
+const startDailyTask = require("./cron/dailytask");
   startDailyTask();
   require("./server");
