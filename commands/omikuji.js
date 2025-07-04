@@ -1,4 +1,4 @@
-const sendchatwork = require("../ctr/message").sendchatwork
+const { sendchatwork } = require("../ctr/message");
 //無限おみくじ
 async function Toomikuji(body, message, messageId, roomId, accountId) {
   try {
