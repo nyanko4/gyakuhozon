@@ -104,6 +104,7 @@ async function fileurl(body, roomId) {
 }
 
 const m = [
+  ":)",
   ":D",
   "8-)",
   ":o",
