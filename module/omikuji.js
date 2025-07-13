@@ -47,7 +47,7 @@ async function omikuji(body, messageId, roomId, accountId) {
       } else {
         console.log("おみくじ結果が保存されました:", insertData);
       }
-      function getOmikujiResult() {
+      async function getOmikujiResult() {
         const random = Math.random() * 100;
         if (random < 5) return "大凶";
         //5
