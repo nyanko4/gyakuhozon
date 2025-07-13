@@ -1,5 +1,6 @@
 const axios = require("axios");
-const { getChatworkRoom, readmessage2 } = require("../ctr/cwdata");
+const { getChatworkRoom } = require("../ctr/cwdata");
+const { readmessage2 } = require("..ctr/message")
 
 async function read(body, message, messageId, roomId, accountId) {
   try {
