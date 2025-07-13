@@ -77,6 +77,24 @@ async function sendername(accountId, roomId) {
   return "chatworkユーザー";
 }
 
+async function getChatworkRoom() {
+  try {
+    const response = await axios.get(
+      'https://api.chatwork.com/v2/rooms',
+      {
+        headers: {
+          accept: "application/json",
+          "X-ChatWorkToken": CHATWORK_API_TOKEN_N,
+        },
+      }
+    );
+    const room = response.data;
+    return room
+  } catch(err) {
+    console.error(err)
+  }
+}
+
 async function fileurl(body, roomId) {
   try {
     const match = body.match(/download:(\d+)/);
@@ -204,6 +222,7 @@ async function arashi(body, messageId, roomId, accountId) {
 module.exports = {
   getChatworkMembers,
   getChatworkMembers2,
+  getChatworkRoom,
   isUserAdmin,
   sendername,
   fileurl,
