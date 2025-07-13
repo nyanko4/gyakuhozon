@@ -1,5 +1,4 @@
 const axios = require("axios");
-
 const CHATWORK_API_TOKEN = process.env.CWapitoken;
 const CHATWORK_API_TOKEN_N = process.env.CWapitoken2;
 
@@ -15,7 +14,6 @@ async function isUserAdmin(accountId, roomId) {
       }
     );
     const member = response.data.find((m) => m.account_id === accountId);
-
     if (member && member.role === "admin") {
       return true;
     } else {
@@ -37,7 +35,6 @@ async function getChatworkMembers(roomId) {
         },
       }
     );
-
     const members = response.data;
     return members;
   } catch (error) {
@@ -95,7 +92,6 @@ async function fileurl(body, roomId) {
     );
     const downloadurl = response.data.download_url;
     const filename = response.data.filename;
-
     return { fileurl: downloadurl, filename: filename };
   } catch (error) {
     console.error("エラーが発生しました:", error);
