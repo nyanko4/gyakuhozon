@@ -6,7 +6,7 @@ async function read(body, message, messageId, roomId, accountId) {
   try {
     const rooms = await getChatworkRoom()
     for (const room of rooms) {
-      if(room.type !== "group") return
+      if(room.type === "group")
       const roomid = room.room_id;
       await readmessage2(roomid)
     };
