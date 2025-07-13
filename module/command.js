@@ -13,6 +13,7 @@ const commands = {
   messagelink: require("../commands/messagelink"),
   roominfo: require("../commands/roominfo"),
   流し: require("../commands/nagashi"),
+  既読: require("../commands/read"),
   kengen: kengen,
 };
 async function command(body, messageId, roomId, accountId) {
