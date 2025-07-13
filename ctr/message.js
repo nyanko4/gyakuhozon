@@ -112,10 +112,32 @@ async function readmessage(roomId, messageId) {
   }
 }
 
+async function readmessage_hon(roomId, messageId) {
+  try {
+    await axios.put(
+      `https://api.chatwork.com/v2/rooms/${roomId}/messages/read`,
+      new URLSearchParams({ message_id: messageId }),
+      {
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+          "X-ChatWorkToken": CHATWORK_API_TOKEN2,
+        },
+      }
+    );
+    console.log("既読をつけました");
+  } catch (error) {
+    console.error(
+      "既読がつけれませんでした:",
+      error.response?.data || error.message
+    );
+  }
+}
+
 module.exports = {
   sendchatwork,
   sendchatwork2,
   deleteMessages,
   deleteMessage,
   readmessage,
+  readmessage2,
 };
