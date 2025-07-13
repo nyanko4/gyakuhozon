@@ -112,7 +112,7 @@ async function readmessage(roomId) {
   }
 }
 
-async function readmessage_hon(roomId) {
+async function readmessage2(roomId) {
   try {
     await axios.put(
       `https://api.chatwork.com/v2/rooms/${roomId}/messages/read`,
