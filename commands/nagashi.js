@@ -23,8 +23,6 @@ async function nagashi(body, message, messageId, roomId, accountId) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // 1秒待つ
       }
     }
-  } else {
-    await sendchatwork("botの主以外は使えません", roomId);
   }
 }
 module.exports = nagashi;
