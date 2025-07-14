@@ -1,7 +1,7 @@
 const { DateTime } = require("luxon");
-const sendchatwork = require("../ctr/message").sendchatwork;
+const { sendchatwork } = require("../ctr/message");
 const { kengen } = require("../ctr/filter");
-const commands = {
+const commands = { 
   poker: require("../commands/poker"),
   dice: require("../commands/dice"),
   おみくじ: require("../commands/omikuji"),
