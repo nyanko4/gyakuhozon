@@ -223,5 +223,6 @@ async function kengen(body, message, messageId, roomId, accountIdToBlock) {
 }
 module.exports = {
   blockMember,
+  SelectblockMember,
   kengen,
 };
