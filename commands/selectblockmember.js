@@ -8,5 +8,4 @@ async function nagashi(body, message, messageId, roomId, accountId) {
     await SelectblockMember(rid, aid)
     }
   }
-}
-module.exports = nagashi;
+module.exports = SelectblockMember;
