@@ -1,5 +1,5 @@
 const { DateTime } = require("luxon");
-const sendchatwork = require("../ctr/message").sendchatwork;
+const { sendchatwork } = require("../ctr/message");
 const { kengen } = require("../ctr/filter");
 const commands = {
   poker: require("../commands/poker"),
