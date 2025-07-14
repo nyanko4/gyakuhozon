@@ -5,7 +5,7 @@ async function nagashi(body, message, messageId, roomId, accountId) {
       [...body.matchAll(regex)].map((n) => n[0]);
     const Id = extractMatches(/\d+(?=,)/g);
     let num = extractMatches(/(?<=,)\d+/g);
-    if (num >= 100) {
+    if (num > 100) {
       await sendchatwork("数が大きすぎます", roomId);
       return;
     }
