@@ -1,4 +1,3 @@
-const axios = require("axios");
 const { getChatworkRoom } = require("../ctr/cwdata");
 const { readmessage2 } = require("../ctr/message")
 
