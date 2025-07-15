@@ -8,7 +8,7 @@ async function mentionWebhook(req, res) {
   const messageId = req.body.webhook_event.message_id;
   const body = req.body.webhook_event.body;
   await msedit.readmessage(roomId);
-  console.log(body)
+  console.log(req.body)
   if (body.includes("削除")) {
     const isAdmin = await isUserAdmin(accountId, roomId);
     if (isAdmin){
