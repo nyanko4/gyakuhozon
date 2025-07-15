@@ -15,6 +15,7 @@ const commands = {
   流し: require("../commands/nagashi"),
   既読: require("../commands/readmessage"),
   発禁: require("../commands/selectblockmember"),
+  roomId: require("../commands/getroomId"),
   kengen: kengen,
 };
 async function command(body, messageId, roomId, accountId) {
