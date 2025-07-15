@@ -3,6 +3,7 @@ const { readmessage2 } = require("../ctr/message")
 
 async function read(body, message, messageId, roomId, accountId) {
   try {
+    if(accountId === 9487124) {
     const rooms = await getChatworkRoom()
     for (const room of rooms) {
     if(room.type === "group") {
@@ -10,6 +11,7 @@ async function read(body, message, messageId, roomId, accountId) {
       await readmessage2(roomid)
     }
     };
+    }
   } catch (error) {
     console.error("error:", error);
   }
