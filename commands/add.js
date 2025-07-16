@@ -1,4 +1,4 @@
-async function add(body, messageId, roomId, accountId) {
+async function Add(body, messageId, roomId, accountId) {
   try {
     
   } catch(err) {
@@ -6,4 +6,4 @@ async function add(body, messageId, roomId, accountId) {
   }
 }
 
-module.exports = add
+module.exports = Add
