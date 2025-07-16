@@ -1,59 +1,36 @@
-const express = require("express");
-const router = express.Router();
-const supabase = require("../supabase/client");
+// qtmetaParser.js
 
-// 追加
-router.post("/items", async (req, res) => {
-  const { accountId, name, result, table, moduleReason } = req.body;
-  const nameKey = table === "ブラックリスト" ? "理由" : "名前";
-  const resultKey = table === "ブラックリスト" ? "回数" : "結果";
+const accountIdToName = {
+  12345: "山田太郎",
+  67890: "佐藤花子",
+  // 他ユーザー追加
+};
 
-  const insertData = { accountId };
-  insertData[nameKey] = name;
-  insertData[resultKey] = result;
-  if (table === "ブラックリスト") insertData["モジュール理由"] = moduleReason || "不明";
+function formatUnixTime(unixTime) {
+  const date = new Date(unixTime * 1000);
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
+  const hh = String(date.getHours()).padStart(2, '0');
+  const mi = String(date.getMinutes()).padStart(2, '0');
+  return `${yyyy}/${mm}/${dd} ${hh}:${mi}`;
+}
 
-  try {
-    const { error } = await supabase.from(table).insert([insertData]);
-    if (error) throw error;
-    res.status(200).json({ message: "追加成功" });
-  } catch (error) {
-    res.status(500).json({ message: "追加失敗", error: error.message });
-  }
-});
+function convertQtmetaToHTML(input) {
+  return input.replace(
+    /\[qtmeta\]\[meta aid=(\d+) time=(\d+)\]\s*([\s\S]*?)\s*\[\/meta\]/g,
+    (_, aid, time, message) => {
+      const formattedTime = formatUnixTime(Number(time));
+      const name = accountIdToName[aid] || `ユーザーID: ${aid}`;
+      return `<blockquote class="chatwork-quote">
+  <p>${message.trim()}</p>
+  <footer>
+    投稿日時: ${formattedTime}<br>
+    投稿者: ${name}（<a href="/search?aid=${aid}">検索</a>）
+  </footer>
+</blockquote>`;
+    }
+  );
+}
 
-// 更新
-router.put("/items/:id", async (req, res) => {
-  const { id } = req.params;
-  const { name, result, table } = req.body;
-  const nameKey = table === "ブラックリスト" ? "理由" : "名前";
-  const resultKey = table === "ブラックリスト" ? "回数" : "結果";
-
-  const updateData = {};
-  updateData[nameKey] = name;
-  updateData[resultKey] = result;
-
-  try {
-    const { error } = await supabase.from(table).update(updateData).eq("accountId", id);
-    if (error) throw error;
-    res.status(200).json({ message: "更新成功" });
-  } catch (error) {
-    res.status(500).json({ message: "更新失敗", error: error.message });
-  }
-});
-
-// 削除
-router.delete("/items/:id", async (req, res) => {
-  const { id } = req.params;
-  const table = req.query.table;
-
-  try {
-    const { error } = await supabase.from(table).delete().eq("accountId", id);
-    if (error) throw error;
-    res.status(200).json({ message: "削除成功" });
-  } catch (error) {
-    res.status(500).json({ message: "削除失敗", error: error.message });
-  }
-});
-
-module.exports = router;
+module.exports = { convertQtmetaToHTML };
