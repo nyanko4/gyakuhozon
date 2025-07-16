@@ -1,5 +1,5 @@
 const commands = {
-  取得: requrie("../commands/get"),
+  取得: require("../commands/get"),
   追加: require("../commands/add"),
   一覧: require("../commands/list"),
   削除: require("../commands/delete"),
