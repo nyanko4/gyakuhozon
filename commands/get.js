@@ -1,4 +1,4 @@
-async function get(body, messageId, roomId, accountId) {
+async function Get(body, messageId, roomId, accountId) {
   try {
     
   } catch(err) {
@@ -6,4 +6,4 @@ async function get(body, messageId, roomId, accountId) {
   }
 }
 
-module.exports = get
+module.exports = Get
