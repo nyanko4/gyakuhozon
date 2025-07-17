@@ -12,6 +12,8 @@ router.get("/", async (req, res) => {
     return res.status(500).send("データ取得エラー");
   }
 
+  console.log(data)
+
   const quotes = data.map((q) => ({
     ...q,
     formattedTime: new Date(q.time).toLocaleString("ja-JP", {
