@@ -53,9 +53,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-const express = require("express");
-const router = express.Router();
-const supabase = require("../supabase/client");
 
 router.get("/search", async (req, res) => {
   const { aid, name } = req.query;
