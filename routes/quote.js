@@ -6,7 +6,6 @@ router.get("/", async (req, res) => {
   const { data, error } = await supabase
     .from("虐")
     .select("*")
-    .order("time", { ascending: false })
 
   if (error) {
     console.error("Supabase取得エラー:", error);
