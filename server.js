@@ -38,7 +38,6 @@ app.use((req, res, next) => {
 app.use("/", require("./routes/auth"));
 app.use("/", require("./routes/webhook"));
 app.use("/quote", require("./routes/quote"));
-);
 app.get('/send', (req, res) => {
   res.end(JSON.stringify(process.versions, null, 2));
   console.log("ぬ")
