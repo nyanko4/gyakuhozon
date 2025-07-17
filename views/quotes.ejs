@@ -48,7 +48,7 @@
         const message = button.dataset.message;
 
         // コピーするフォーマット
-        const copyText = `[qtmeta][meta aid=${aid} time=${time}]${message}[/meta]`;
+        const copyText = `[qt][qtmeta aid=${aid} time=${time}]${message}[/qt]`;
 
         navigator.clipboard.writeText(copyText).then(() => {
           alert('引用をコピーしました！');
