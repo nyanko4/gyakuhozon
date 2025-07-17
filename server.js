@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 });
 
 // ルート登録
-app.use("/", require("./routes/index"));
+app.use("/", require("./routes/auth"));
 app.use("/", require("./routes/webhook"));
 app.use("/quote", require("./routes/quote"));
 );
