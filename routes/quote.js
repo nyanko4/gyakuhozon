@@ -2,32 +2,30 @@ const express = require("express");
 const router = express.Router();
 const supabase = require("../supabase/client");
 
-router.get("/:aid", async (req, res) => {
-  const { aid } = req.params;
-
+router.get("/", async (req, res) => {
   const { data, error } = await supabase
-    .from("虐")
+    .from("quotes")
     .select("*")
-    .eq("aid", aid)
-    .single();
+    .order("time", { ascending: false })
 
-  if (error || !data) {
-    return res.status(404).send("引用が見つかりませんでした");
+  if (error) {
+    console.error("Supabase取得エラー:", error);
+    return res.status(500).send("データ取得エラー");
   }
 
-  res.render("quote", {
-    quote: {
-      ...data,
-      formattedTime: new Date(data.time).toLocaleString("ja-JP", {
-        timeZone: "Asia/Tokyo",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    },
-  });
+  const quotes = data.map((q) => ({
+    ...q,
+    formattedTime: new Date(q.time).toLocaleString("ja-JP", {
+      timeZone: "Asia/Tokyo",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    }),
+  }));
+
+  res.render("quotes", { quotes });
 });
 
 module.exports = router;
