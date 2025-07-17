@@ -1,62 +1,28 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html>
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>引用一覧</title>
-  <style>
-    blockquote {
-      border-left: 4px solid #ccc;
-      padding-left: 10px;
-      margin: 10px 0;
-      background: #f9f9f9;
-    }
-    .quote-meta {
-      color: #666;
-      font-size: 0.9em;
-      margin-bottom: 5px;
-    }
-    .copy-button {
-      margin-top: 5px;
-      padding: 4px 8px;
-      font-size: 0.9em;
-      cursor: pointer;
-    }
-  </style>
 </head>
 <body>
   <h1>引用一覧</h1>
-
-  <% if (quotes.length === 0) { %>
-    <p>引用がありません。</p>
-  <% } %>
-
-  <% quotes.forEach((q, i) => { %>
-    <blockquote id="quote-<%= i %>">
-      <div class="quote-meta">
-        aid: <%= q.aid %> | <%= q.formattedTime %>
-      </div>
-      <div><%= q.message.replace(/\n/g, '<br>') %></div>
-      <button class="copy-button" data-aid="<%= q.aid %>" data-time="<%= Math.floor(new Date(q.time).getTime() / 1000) %>" data-message="<%= q.message.replace(/"/g, '&quot;') %>">引用をコピー</button>
-    </blockquote>
+  <% quotes.forEach(quote => { %>
+    <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+      <p><strong><%= quote.name %></strong>（<%= quote.aid %>）</p>
+      <p><%= quote.formattedTime %></p>
+      <pre><%= quote.message %></pre>
+      <button onclick="copyToClipboard(`[qtmeta][meta aid=<%= quote.aid %> time=<%= quote.time %>]<%= quote.message %>[/meta]`)">コピー</button>
+    </div>
   <% }) %>
 
   <script>
-    document.querySelectorAll('.copy-button').forEach(button => {
-      button.addEventListener('click', () => {
-        const aid = button.dataset.aid;
-        const time = button.dataset.time;
-        const message = button.dataset.message;
-
-        // コピーするフォーマット
-        const copyText = `[qt][qtmeta aid=${aid} time=${time}]${message}[/qt]`;
-
-        navigator.clipboard.writeText(copyText).then(() => {
-          alert('引用をコピーしました！');
-        }).catch(() => {
-          alert('コピーに失敗しました。');
-        });
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("コピーしました！");
+      }).catch(err => {
+        alert("コピーに失敗しました");
       });
-    });
+    }
   </script>
 </body>
 </html>
