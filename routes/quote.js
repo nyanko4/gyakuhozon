@@ -43,7 +43,7 @@ router.get("/", async (req, res) => {
         hour: "2-digit",
         minute: "2-digit",
       }),
-      qtmeta: `[qtmeta][meta aid=${q.aid} time=${q.time}]${q.message}[/meta]`,
+      qtmeta: `[qt][qtmeta aid=${q.aid} time=${q.time}]${q.message}[/qt]`,
     }));
 
     return res.render("quotes", { quotes });
