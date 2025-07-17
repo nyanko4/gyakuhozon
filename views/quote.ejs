@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>引用</title>
+</head>
+<body>
+  <div class="quote-box" style="border-left: 4px solid #ccc; padding-left: 10px;">
+    <div class="quote-meta" style="color: #666;">
+      [aid=<%= quote.aid %>] <%= quote.formattedTime %>
+    </div>
+    <div class="quote-message">
+      <%= quote.message %>
+    </div>
+  </div>
+</body>
+</html>
