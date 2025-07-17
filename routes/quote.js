@@ -1,25 +1,38 @@
+// quote.js
 const express = require("express");
 const router = express.Router();
 const supabase = require("../supabase/client");
 
 router.get("/", async (req, res) => {
-  
-  const { data, error } = await supabase
-        .from("虐")
-        .select("*")
+  // 引用一覧取得
+  const { data: quotes, error: quoteError } = await supabase
+    .from("虐")
+    .select("*")
+    .order("time", { ascending: false });
 
-  if (error) {
-    console.error("Supabase取得エラー:", error);
+  if (quoteError) {
+    console.error("引用データ取得エラー:", quoteError);
     return res.status(500).send("データ取得エラー");
   }
 
-  console.log(data)
+  const { data: users, error: userError } = await supabase
+    .from("名前")
+    .select("aid, name");
 
-  const quotes = data.map((q) => {
-  const timeInMillis = q.time * 1000; // 秒 → ミリ秒
-  return {
+  if (userError) {
+    console.error("ユーザー取得エラー:", userError);
+    return res.status(500).send("ユーザーデータ取得エラー");
+  }
+
+  const aidToNameMap = {};
+  users.forEach(user => {
+    aidToNameMap[user.aid] = user.name;
+  });
+
+  // 各引用に formattedTime と name を追加
+  const enrichedQuotes = quotes.map((q) => ({
     ...q,
-    formattedTime: new Date(timeInMillis).toLocaleString("ja-JP", {
+    formattedTime: new Date(q.time * 1000).toLocaleString("ja-JP", {
       timeZone: "Asia/Tokyo",
       year: "numeric",
       month: "2-digit",
@@ -27,10 +40,10 @@ router.get("/", async (req, res) => {
       hour: "2-digit",
       minute: "2-digit",
     }),
-  };
-});
+    name: aidToNameMap[q.aid] || `不明（aid: ${q.aid}）`,
+  }));
 
-  res.render("quotes", { quotes });
+  res.render("quotes", { quotes: enrichedQuotes });
 });
 
 module.exports = router;
