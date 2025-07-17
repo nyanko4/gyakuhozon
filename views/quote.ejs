@@ -1,17 +1,62 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>引用</title>
+  <meta charset="UTF-8" />
+  <title>引用一覧</title>
+  <style>
+    blockquote {
+      border-left: 4px solid #ccc;
+      padding-left: 10px;
+      margin: 10px 0;
+      background: #f9f9f9;
+    }
+    .quote-meta {
+      color: #666;
+      font-size: 0.9em;
+      margin-bottom: 5px;
+    }
+    .copy-button {
+      margin-top: 5px;
+      padding: 4px 8px;
+      font-size: 0.9em;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <div class="quote-box" style="border-left: 4px solid #ccc; padding-left: 10px;">
-    <div class="quote-meta" style="color: #666;">
-      [aid=<%= quote.aid %>] <%= quote.formattedTime %>
-    </div>
-    <div class="quote-message">
-      <%= quote.message %>
-    </div>
-  </div>
+  <h1>引用一覧</h1>
+
+  <% if (quotes.length === 0) { %>
+    <p>引用がありません。</p>
+  <% } %>
+
+  <% quotes.forEach((q, i) => { %>
+    <blockquote id="quote-<%= i %>">
+      <div class="quote-meta">
+        aid: <%= q.aid %> | <%= q.formattedTime %>
+      </div>
+      <div><%= q.message.replace(/\n/g, '<br>') %></div>
+      <button class="copy-button" data-aid="<%= q.aid %>" data-time="<%= Math.floor(new Date(q.time).getTime() / 1000) %>" data-message="<%= q.message.replace(/"/g, '&quot;') %>">引用をコピー</button>
+    </blockquote>
+  <% }) %>
+
+  <script>
+    document.querySelectorAll('.copy-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const aid = button.dataset.aid;
+        const time = button.dataset.time;
+        const message = button.dataset.message;
+
+        // コピーするフォーマット
+        const copyText = `[qtmeta][meta aid=${aid} time=${time}]${message}[/meta]`;
+
+        navigator.clipboard.writeText(copyText).then(() => {
+          alert('引用をコピーしました！');
+        }).catch(() => {
+          alert('コピーに失敗しました。');
+        });
+      });
+    });
+  </script>
 </body>
 </html>
