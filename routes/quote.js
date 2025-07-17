@@ -4,7 +4,7 @@ const supabase = require("../supabase/client");
 
 router.get("/", async (req, res) => {
   const { data, error } = await supabase
-    .from("quotes")
+    .from("虐")
     .select("*")
     .order("time", { ascending: false })
 
