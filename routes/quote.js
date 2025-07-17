@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 
   // ユーザー情報取得（aid → name）
   const { data: users, error: userError } = await supabase
-    .from("users")
+    .from("名前")
     .select("aid, name");
 
   if (userError) {
