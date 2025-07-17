@@ -11,7 +11,7 @@
       <p><strong><%= quote.name %></strong>（<%= quote.aid %>）</p>
       <p><%= quote.formattedTime %></p>
       <pre><%= quote.message %></pre>
-      <button onclick="copyToClipboard(`[qtmeta][meta aid=<%= quote.aid %> time=<%= quote.time %>]<%= quote.message %>[/meta]`)">コピー</button>
+      <button onclick="copyToClipboard(`[qt][qtmeta aid=<%= quote.aid %> time=<%= quote.time %>]<%= quote.message %>[/qt]`)">コピー</button>
     </div>
   <% }) %>
 
