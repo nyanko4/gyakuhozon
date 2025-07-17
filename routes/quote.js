@@ -118,7 +118,7 @@ router.get("/search", async (req, res) => {
       qtmeta: `[qt][qtmeta aid=${q.aid} time=${q.time}]${q.message}[/qt]`,
     }));
 
-    return res.render("quotes", { quotes });
+    return res.render("quotes", { quotes, aid, name });
 
   } catch (err) {
     console.error("サーバー内部エラー:", err);
