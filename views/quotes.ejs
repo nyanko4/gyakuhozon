@@ -3,17 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <title>引用一覧</title>
+  <style>
+    body { font-family: sans-serif; padding: 1em; }
+    .quote { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    .meta { font-size: 0.9em; color: #666; }
+    pre { white-space: pre-wrap; word-break: break-word; }
+  </style>
 </head>
 <body>
   <h1>引用一覧</h1>
-  <% quotes.forEach(quote => { %>
-    <div style="border:1px solid #ccc; padding:10px; margin:10px;">
-      <p><strong><%= quote.name %></strong>（<%= quote.aid %>）</p>
-      <p><%= quote.formattedTime %></p>
-      <pre><%= quote.message %></pre>
-      <button onclick="copyToClipboard(`[qt][qtmeta aid=<%= quote.aid %> time=<%= quote.time %>]<%= quote.message %>[/qt]`)">コピー</button>
-    </div>
-  <% }) %>
+
+  <form method="get" action="/search">
+    <input name="aid" placeholder="aidで検索" value="<%= typeof aid !== 'undefined' ? aid : '' %>">
+    <input name="name" placeholder="名前で検索" value="<%= typeof name !== 'undefined' ? name : '' %>">
+    <button type="submit">検索</button>
+  </form>
+
+  <% if (quotes.length === 0) { %>
+    <p>一致する引用が見つかりませんでした。</p>
+  <% } else { %>
+    <% quotes.forEach(quote => { %>
+      <div class="quote">
+        <p><strong><%= quote.name %></strong>（<%= quote.aid %>）</p>
+        <p class="meta"><%= quote.formattedTime %></p>
+        <pre><%= quote.message %></pre>
+        <button onclick="copyToClipboard(`[qt][qtmeta aid=<%= quote.aid %> time=<%= quote.time %>]<%= quote.message %>[/qt]`)">コピー</button>
+      </div>
+    <% }) %>
+  <% } %>
 
   <script>
     function copyToClipboard(text) {
