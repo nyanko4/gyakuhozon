@@ -25,14 +25,16 @@ app.use(session({
 
 // 認証ミドルウェア
 app.use((req, res, next) => {
-  const publicRoutes = ["/login", "/getchat", "/send"];
-  if (!publicRoutes.includes(req.path) && req.cookies.nyanko_a !== "ok") {
-    req.session.redirectTo = req.path !== "/" ? req.path : null;
+  const publicRoutes = ["/login", "/send", "/getchat"];
+  const isPublic = publicRoutes.some(route => req.path.startsWith(route));
+  if (!isPublic && req.cookies.nyanko_a !== "ok") {
+    // セッションに元のURLを保存してリダイレクト
+    req.session.redirectTo = req.originalUrl;
     return res.redirect("/login");
-  } else {
-    next();
   }
+  next();
 });
+
 
 // ルート登録
 app.use("/", require("./routes/auth"));
