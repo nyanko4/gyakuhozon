@@ -15,9 +15,11 @@ router.get("/", async (req, res) => {
 
   console.log(data)
 
-  const quotes = data.map((q) => ({
+  const quotes = data.map((q) => {
+  const timeInMillis = q.time * 1000; // 秒 → ミリ秒
+  return {
     ...q,
-    formattedTime: new Date(q.time).toLocaleString("ja-JP", {
+    formattedTime: new Date(timeInMillis).toLocaleString("ja-JP", {
       timeZone: "Asia/Tokyo",
       year: "numeric",
       month: "2-digit",
@@ -25,7 +27,8 @@ router.get("/", async (req, res) => {
       hour: "2-digit",
       minute: "2-digit",
     }),
-  }));
+  };
+});
 
   res.render("quotes", { quotes });
 });
