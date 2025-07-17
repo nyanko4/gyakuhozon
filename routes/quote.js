@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
     const { data: quotesData, error: quoteError } = await supabase
       .from("虐")
       .select("*")
-      .order("time", { ascending: false });
+      .order("time", { ascending: true });
 
     if (quoteError) {
       console.error("虐テーブル取得エラー:", quoteError);
