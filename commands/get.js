@@ -14,7 +14,7 @@ async function Get(body, messageId, roomId, accountId) {
       await send("aid", n)
     }
     
-async funcrion send() {
+async funcrion send(t, s) {
   const { data, error } = await supabase
     .from("虐")
     .select("*")
