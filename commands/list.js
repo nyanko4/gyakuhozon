@@ -1,4 +1,4 @@
-const supabase = require("./supabase/client"); // パスは環境によって調整
+const supabase = require("../supabase/client");
 async function List(body, message, messageId, roomId, accountId) {
   try {
     const { data, error } = await supabase
