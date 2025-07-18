@@ -1,9 +1,9 @@
 const supabase = require("../supabase/client");
 const { sendchatwork } = require("../ctr/message");
 
-async function Get(body, messageId, roomId, accountId) {
+async function Get(body, message, messageId, roomId, accountId) {
   try {
-    const [type, n] = body.split(",").map((s) => s.trim());
+    const [type, n] = message.split(",").map((s) => s.trim());
 
     if (type === "名前") {
       await sendByName(n, roomId);
