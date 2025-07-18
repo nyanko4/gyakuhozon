@@ -1,120 +1,70 @@
-// quote.js
-const express = require("express");
-const router = express.Router();
 const supabase = require("../supabase/client");
+const { sendchatwork } = require("../ctr/message");
 
-router.get("/", async (req, res) => {
-  // 引用一覧取得
-  const { data: quotes, error: quoteError } = await supabase
-    .from("虐")
-    .select("*")
-    .order("time", { ascending: true });
-
-  if (quoteError) {
-    console.error("引用データ取得エラー:", quoteError);
-    return res.status(500).send("データ取得エラー");
-  }
-
-  // ユーザー情報取得（aid → name）
-  const { data: users, error: userError } = await supabase
-    .from("名前")
-    .select("aid, name");
-
-  if (userError) {
-    console.error("ユーザー取得エラー:", userError);
-    return res.status(500).send("ユーザーデータ取得エラー");
-  }
-
-  // aid => name マップ作成
-  const aidToNameMap = {};
-  users.forEach(user => {
-    aidToNameMap[user.aid] = user.name;
-  });
-
-  // 各引用に formattedTime と name を追加
-  const enrichedQuotes = quotes.map((q) => ({
-    ...q,
-    formattedTime: new Date(q.time * 1000).toLocaleString("ja-JP", {
-      timeZone: "Asia/Tokyo",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    }),
-    name: aidToNameMap[q.aid] || `不明（aid: ${q.aid}）`,
-  }));
-
-  res.render("quotes", { quotes: enrichedQuotes });
-});
-
-router.get("/search", async (req, res) => {
-  const { aid, name } = req.query;
-
+async function Get(body, messageId, roomId, accountId) {
   try {
-    // 名前テーブル取得
-    const { data: namesData, error: nameError } = await supabase
-      .from("名前")
-      .select("aid, name");
+    const [type, n] = body.split(",").map((s) => s.trim());
 
-    if (nameError) {
-      console.error("名前テーブル取得エラー:", nameError);
-      return res.status(500).send("名前データ取得エラー");
+    if (type === "名前") {
+      await sendByName(n, roomId);
+    } else if (type === "aid") {
+      await sendByAid(n, roomId);
+    } else {
+      console.error("無効なタイプ:", type);
+    }
+  } catch (err) {
+    console.error("Get関数エラー:", err);
+  }
+}
+
+async function sendByName(name, roomId) {
+  try {
+    const { data: nameData, error: nameError } = await supabase
+      .from("名前")
+      .select("aid")
+      .eq("name", name);
+
+    if (nameError || !nameData || nameData.length === 0) {
+      console.error("名前データ取得失敗:", nameError);
+      return await sendchatwork("該当する名前は見つかりませんでした。", roomId);
     }
 
-    // aid指定がなければ、nameからaidを特定
-    let targetAid = aid;
-    if (!targetAid && name) {
-      const found = namesData.find((n) => n.name === name);
-      if (found) {
-        targetAid = found.aid;
-      } else {
-        return res.render("quotes", { quotes: [] });
+    for (const entry of nameData) {
+      await sendByAid(entry.aid, roomId);
+    }
+  } catch (err) {
+    console.error("sendByName関数エラー:", err);
+  }
+}
+
+async function sendByAid(aid, roomId) {
+  try {
+    const { data: quotes, error: quoteError } = await supabase
+      .from("虐")
+      .select("*")
+      .eq("aid", aid)
+      .order("time", { ascending: true });
+
+    if (quoteError || !quotes || quotes.length === 0) {
+      console.error("引用データ取得エラー:", quoteError);
+      return await sendchatwork("該当する引用は見つかりませんでした。", roomId);
+    }
+
+    // 重複除去
+    const seen = new Set();
+    let str = "";
+    for (const q of quotes) {
+      const key = `${q.aid}_${q.time}_${q.message}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        str += `[qt][qtmeta aid=${q.aid} time=${q.time}]${q.message}[/qt]\n`;
       }
     }
 
-    if (!targetAid) {
-      return res.status(400).send("aidまたはnameを指定してください");
-    }
-
-    // 該当aidの虐データ取得
-    const { data: quotesData, error: quoteError } = await supabase
-      .from("虐")
-      .select("*")
-      .eq("aid", targetAid)
-      .order("time", { ascending: false });
-
-    if (quoteError) {
-      console.error("虐データ取得エラー:", quoteError);
-      return res.status(500).send("虐データ取得エラー");
-    }
-
-    // 名前マッピング用
-    const nameMap = {};
-    namesData.forEach((n) => {
-      nameMap[n.aid] = n.name;
-    });
-
-    const quotes = quotesData.map((q) => ({
-      ...q,
-      name: nameMap[q.aid] || "不明",
-      formattedTime: new Date(q.time * 1000).toLocaleString("ja-JP", {
-        timeZone: "Asia/Tokyo",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      qtmeta: `[qt][qtmeta aid=${q.aid} time=${q.time}]${q.message}[/qt]`,
-    }));
-
-    return res.render("quotes", { quotes, aid, name });
-
+    await sendchatwork(str, roomId);
   } catch (err) {
-    console.error("サーバー内部エラー:", err);
-    return res.status(500).send("内部エラー");
+    console.error("sendByAid関数エラー:", err);
   }
-});
+}
 
-module.exports = router;
+module.exports = Get;
