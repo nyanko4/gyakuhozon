@@ -1,10 +1,10 @@
 const supabase = require("../supabase/client");
 const { sendchatwork } = require("../ctr/message");
 
-async function Get(body, messageId, roomId, accountId) {
+async function Get(body, message, messageId, roomId, accountId) {
   try {
     const extractMatches = (regex) =>
-      [...body.matchAll(regex)].map((n) => n[0]);
+      [...message.matchAll(regex)].map((n) => n[0]);
 
     const type = extractMatches(/\S+(?=,)/g)[0];
     const n = extractMatches(/(?<=,)\S+/g)[0];
