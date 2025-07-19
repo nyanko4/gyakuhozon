@@ -8,7 +8,7 @@ async function List(body, message, messageId, roomId, accountId) {
       .neq("name", null);
 
     const uniqueNames = [...new Set(data.map(n => n.name))];
-    await sendchatwork(uniqueNames.replace(/,/g, "\n"), roomId); 
+    await sendchatwork(uniqueNames.join("\n"), roomId); 
 
   } catch(err) {
     console.error(err)
