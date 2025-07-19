@@ -37,13 +37,14 @@ app.use((req, res, next) => {
 
 
 // ルート登録
-app.use("/", require("./routes/auth"));
-app.use("/", require("./routes/quote"));
-app.use("/", require("./routes/webhook"));
 app.get('/send', (req, res) => {
   res.end(JSON.stringify(process.versions, null, 2));
   console.log("ぬ")
 });
+app.use("/", require("./routes/auth"));
+app.use("/", require("./routes/quote"));
+app.use("/", require("./routes/webhook"));
+
 // サーバ起動
 app.listen(3000, () => {
   console.log(`${process.pid} started`);
