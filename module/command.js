@@ -2,7 +2,6 @@ const commands = {
   取得: require("../commands/get"),
   追加: require("../commands/add"),
   一覧: require("../commands/list"),
-  削除: require("../commands/delete"),
 };
 async function command(body, messageId, roomId, accountId) {
   const message = body.replace(/\/.*?\/|\s+/g, "");
