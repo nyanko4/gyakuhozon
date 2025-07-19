@@ -1,9 +1,9 @@
 const supabase = require("../supabase/client");
 const { sendchatwork } = require("../ctr/message");
 
-async function Add(body, message, messageId, roomId, accountId) {
+async function Add(body, m, messageId, roomId, accountId) {
   try {
-    const commandMatch = message.match(/^([^,]+),\[qt\]\[qtmeta aid=(\d+)\s+time=(\d+)\](.*?)\[\/qt\]$/s);
+    const commandMatch = m.match(/^([^,]+),\[qt\]\[qtmeta aid=(\d+)\s+time=(\d+)\](.*?)\[\/qt\]$/s);
     if (!commandMatch) {
       await sendchatwork("形式が正しくありません。\n名前,[qt][qtmeta aid=xxx time=xxx]メッセージ[/qt] の形式で送ってください。", roomId);
       return;
