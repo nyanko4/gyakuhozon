@@ -1,9 +1,7 @@
-async function Add(body, messageId, roomId, accountId) {
-  try {
-    const supabase = require("../supabase/client");
+const supabase = require("../supabase/client");
 const { sendchatwork } = require("../ctr/message");
 
-async function AddQuote(body, messageId, roomId, accountId) {
+async function Add(body, message, messageId, roomId, accountId) {
   try {
     const commandMatch = message.match(/^([^,]+),\[qt\]\[qtmeta aid=(\d+)\s+time=(\d+)\](.*?)\[\/qt\]$/s);
     if (!commandMatch) {
@@ -37,15 +35,8 @@ async function AddQuote(body, messageId, roomId, accountId) {
 
     await sendchatwork("保存しました ✅", roomId);
   } catch (err) {
-    console.error("AddQuote関数エラー:", err);
+    console.error("Add関数エラー:", err);
     await sendchatwork("処理中にエラーが発生しました。", roomId);
-  }
-}
-
-module.exports = AddQuote;
-
-  } catch(err) {
-    console.error(err)
   }
 }
 
